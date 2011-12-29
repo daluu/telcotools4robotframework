@@ -1,0 +1,904 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>RobotFramework eyeBeam/X-Lite Resource (~Library) File</title>
+</head>
+
+<body>
+
+<h1>RobotFramework eyeBeam/X-Lite Resource (~Library) File</h1>
+
+<p><strong>Version:</strong> 1.0<br>
+<strong>Licensed under:</strong> <a
+href="http://creativecommons.org/licenses/by/3.0/"
+target="_blank">Creative Commons CC BY 3.0</a><br>
+<strong>Project website</strong>: <a
+href="http://code.google.com/p/telcotools4robotframework/">http://code.google.com/p/telcotools4robotframework/</a></p>
+
+<p><strong>Dependencies:</strong></p>
+
+<ul>
+    <li>eyeBeam (version 1.1 or 1.5) or X-Lite (version 3.0)
+        softphone. See <a
+        href="http://www.counterpath.com/x-lite.html"
+        target="_blank">http://www.counterpath.com/x-lite.html</a>
+        for details, etc.</li>
+    <li><a
+        href="http://code.google.com/p/robotframework-autoitlibrary/"
+        target="_blank">Robot Framework AutoItLibrary</a></li>
+</ul>
+
+<table border="1">
+    <tr>
+        <td><strong>Setting</strong></td>
+        <td><strong>Value</strong></td>
+    </tr>
+    <tr>
+        <td>Documentation</td>
+        <td>Resource file of custom user keywords acting as
+        library for eyeBeam/X-Lite softphone automation. Requires
+        use of 3rd party AutoIt library
+        (http://code.google.com/p/robotframework-autoitlibrary/),
+        and the standard Operating System library. For use with
+        eyeBeam version 1.1 or 1.5 (possible support for other
+        1.x versions), and X-Lite 3.0. The library can be
+        modified to support other softphones, including the
+        latest CounterPath softphones, Bria and X-Lite 4.0
+        (http://www.counterpath.com/x-lite.html). *NOTE:*
+        Designed to run locally on RobotFramework, controlling
+        softphone on same machine, but can be adapted to run
+        against remote machines running the softphone using the
+        Remote Library (implemented/imported with AutoIt and
+        Operating System libraries). *NOTE:* Not all keywords
+        fully tested but should mostly work in general. This
+        library is a port of a VBScript command line script with
+        same API.</td>
+    </tr>
+    <tr>
+        <td>Library</td>
+        <td>AutoItLibrary</td>
+    </tr>
+    <tr>
+        <td>Library</td>
+        <td>OperatingSystem</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<table border="1">
+    <tr>
+        <td><strong>Keyword</strong></td>
+        <td><strong>Action</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+    </tr>
+    <tr>
+        <td>Answer Call</td>
+        <td>[Arguments]</td>
+        <td>${ringCount}=${1}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Answer call after X rings, where rings are calculated
+        as 1 ring ~ 2 seconds.\n\nDefault ring count is 1, if
+        none given.\n\nRing count must be specified as a number
+        in test case, with format being *${Number}*, where Number
+        is 1 or greater, rather than just supplying number
+        without those brackets and dollar sign.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Sleep</td>
+        <td>${ringCount*2} seconds</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>{ENTER}</td>
+        <td># key</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Ban Call</td>
+        <td>[Documentation]</td>
+        <td>Feature is a softkey in eyeBeam (v1.1) display, not
+        available on X-Lite v3, and untested for eyeBeam
+        v1.5+.\n\nHow to un-ban though?</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Mouse Click</td>
+        <td>LEFT</td>
+        <td>425</td>
+        <td>111</td>
+        <td>1</td>
+        <td>0</td>
+        <td># Left-click mouse @ Ban softkey</td>
+        <td># Works like &quot;send to voicemail&quot; all the
+        time until un-banned. How to un-ban though?</td>
+    </tr>
+    <tr>
+        <td>Call</td>
+        <td>[Arguments]</td>
+        <td>${dialString}=${EMPTY}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Call the number specified by the dial string, or
+        currently dialed digits (shown on the eyebeam/X-Lite
+        display) if dial string not supplied (or empty string).</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run Keyword If</td>
+        <td>'${dialString}'!='${EMPTY}'</td>
+        <td>Send</td>
+        <td>${dialString}</td>
+        <td>#dial number/string</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>{ENTER}</td>
+        <td># key to place call</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Close Softphone</td>
+        <td>[Documentation]</td>
+        <td>Close or exit the softphone application.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^q</td>
+        <td># Ctrl + q</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Dial</td>
+        <td>[Arguments]</td>
+        <td>${digits}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Dial valid DTMF digits 0-9,*, and #.\n\nDoes not
+        establish a call, use Call keyword for that.\n\nTo make a
+        call with Dial keyword, follow with a Call keyword with
+        no arguments.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>${digits}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Detect Message Waiting</td>
+        <td>[Documentation]</td>
+        <td>Detect message waiting indicator (MWI).\n\nReturns 1
+        if found.\n\nNot supported on X-Lite. Untested on eyebeam
+        v1.5.</td>
+        <td># Detect MWI icon. Left-click mouse @ MWI icon.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Mouse Click</td>
+        <td>LEFT</td>
+        <td>315</td>
+        <td>144</td>
+        <td>1</td>
+        <td>0</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>${rc}=</td>
+        <td>Win Wait Active</td>
+        <td>Messages Waiting</td>
+        <td>${EMPTY}</td>
+        <td>5</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run Keyword If</td>
+        <td>'${rc}'=='1'</td>
+        <td>Send</td>
+        <td>{ENTER}</td>
+        <td># dismiss popup MWI window/message</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Return]</td>
+        <td>${rc}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Flash</td>
+        <td>[Arguments]</td>
+        <td>${version}=1.5</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Press Flash.\n\nIf using eyebeam version 1.1, need to
+        supply argument value of &quot;1.1&quot;. Default keyword
+        comand is for eyeBeam version 1.5 and X-Lite.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run Keyword If</td>
+        <td>'${version}'=='1.1'</td>
+        <td>Mouse Click</td>
+        <td>LEFT</td>
+        <td>300</td>
+        <td>236</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run Keyword If</td>
+        <td>'${version}'=='1.5'</td>
+        <td>Mouse Click</td>
+        <td>LEFT</td>
+        <td>318</td>
+        <td>236</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>Go Offhook</td>
+        <td>[Documentation]</td>
+        <td>Go offhook (though not literally for a SIP client) to
+        get dial tone &amp; begin dialing.\n\nAssumes no number
+        or SIP URI has been dialed beforehand.\n\nGenerally, you
+        should just use the Call keyword and supply a dial
+        string. Otherwise you can do this sequence of keywords:
+        go offhook, dial digits, call; or go offhook, call dial
+        string.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>{ENTER}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Go Onhook</td>
+        <td>[Documentation]</td>
+        <td>Go onhook (to end call or cancel current action).</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^h</td>
+        <td># Ctrl + h</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Hold</td>
+        <td>[Documentation]</td>
+        <td>Toggle call hold feature of softphone.\n\nDefault
+        state is to put call on hold when first invoked on active
+        call.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^o</td>
+        <td># Ctrl + o</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Ignore Call</td>
+        <td>[Documentation]</td>
+        <td>Use eyeBeam/X-Lite on-screen display softkey to
+        ignore incoming call.</td>
+        <td># Works like &quot;send to voicemail&quot;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^i</td>
+        <td># Ctrl + i</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Perform Blind Transfer</td>
+        <td>[Arguments]</td>
+        <td>${dialString}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Perform a blind transfer of current call to specified
+        destination defined by dial string.\n\nNot supported on
+        X-Lite.\n\nIdeally should check display area to see if
+        get message that transfer failed or not, which currently
+        is not provided by this library.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^t</td>
+        <td># Ctrl + t to initiate xfer</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>${dialString}</td>
+        <td># dial destination of xfer</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^t</td>
+        <td># Ctrl + t to complete xfer</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Perform Consulted Transfer</td>
+        <td>[Arguments]</td>
+        <td>${line}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Perform a consulted or attended transfer of current
+        call to another line (1-6).\n\nNot supported on
+        X-Lite.\n\nIdeally should check display area to see if
+        get message that transfer failed or not, which currently
+        is not provided by this library.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^t</td>
+        <td># Ctrl + t to initiate xfer</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Select Line</td>
+        <td>${line}</td>
+        <td># that is currently on hold</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^t</td>
+        <td># Ctrl + t to complete xfer</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Redial</td>
+        <td>[Documentation]</td>
+        <td>Redial the last dialed number.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^r</td>
+        <td># Ctrl + r</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Select Line</td>
+        <td>[Arguments]</td>
+        <td>${line}=1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Select a line from 1 to 6 on eyeBeam or 1 to 2 on
+        X-Lite.\n\nDefaults to line 1.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^${line}</td>
+        <td># Ctrl + line number</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Send Audio From Softphone</td>
+        <td>[Arguments]</td>
+        <td>${audioFile}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Plays specified wave audio file as audio sent out
+        from eyebeam/X-Lite softphone.\n\nThis keyword assumes
+        that on the computer running the softphone, the audio
+        output is looped back to audio line input or microphone
+        input to be transmitted to the other end of the SIP call,
+        or the audio is piped from wave audio player to softphone
+        audio input (via virtual audio drivers, etc.).\n\nThe
+        audio playback is done through Windows Media Player,
+        version 6.x. Windows Media Player will be launched to
+        play the file and then auto-close on completion.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run</td>
+        <td>&quot;C:\Program Files\Windows Media
+        Player\mplayer2.exe&quot; /play /close ${audioFile}</td>
+        <td>#other options include &quot;mplay32 /play /close
+        ${audioFile}&quot; and &quot;sndrec32 /play /close
+        ${audioFile}&quot;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Send To Voicemail</td>
+        <td>[Documentation]</td>
+        <td>Send incoming call directly to the voicemail of the
+        eyeBeam/X-Lite SIP extension/account, if
+        offered/supported by SIP service provider.\n\nAssumes
+        voicemail settings are pre-configured on
+        softphone.\n\nAlternatively, it may be simpler to use the
+        Ignore Call keyword to do the same thing, since that
+        doesn't require voicemail configuration on the softphone.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^s</td>
+        <td># Ctrl + s</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Set Focus To Softphone</td>
+        <td>[Documentation]</td>
+        <td>Bring softphone into focus as active window on
+        desktop for running RobotFramework test automation
+        against it.\n\nUse as test setup precondition whenever
+        executing the first of a set of softphone automation
+        commands.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Win Activate</td>
+        <td>eyeBeam</td>
+        <td>${EMPTY}</td>
+        <td># if using eyeBeam</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Win Activate</td>
+        <td>X-Lite</td>
+        <td>${EMPTY}</td>
+        <td># if using X-Lite</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Auto It Set Option</td>
+        <td>MouseCoordMode</td>
+        <td>0</td>
+        <td>#set relative mouse positioning for softphone
+        automation</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Start Softphone</td>
+        <td>[Arguments]</td>
+        <td>${softphoneExecutable}=C:\\Program Files\\X-Lite</td>
+        <td>#customize default path to softphone executable</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Open eyeBeam/X-Lite application, if not already open,
+        by supplying the path to the application&#146;s
+        executable file.\n\nTechnically, you can also open other
+        applications with this keyword. Default application/path
+        is &quot;&quot;, if not supplied.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run</td>
+        <td>${softphoneExecutable}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Toggle Auto Answer</td>
+        <td>[Documentation]</td>
+        <td>Enables or disables (toggles) auto answer feature of
+        softphone.\n\nDefault state is off.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^a</td>
+        <td># Ctrl + a</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Toggle Do Not Disturb</td>
+        <td>[Documentation]</td>
+        <td>Enable or disable (toggle) Do Not Disturb (DND)
+        feature of softphone.\n\nDefault state is off.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^d</td>
+        <td># Ctrl + d</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Toggle Mute</td>
+        <td>[Documentation]</td>
+        <td>Enable or disable (toggle) Mute feature of
+        softphone.\n\nDefault state is off.</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Send</td>
+        <td>^m</td>
+        <td># Ctrl + m</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Toggle Recording</td>
+        <td>[Documentation]</td>
+        <td>Enable or disable (toggle) the eyeBeam/X-Lite audio
+        recording feature.\n\nDefault state is off.\n\nSaves
+        audio recording files to default recording directory of
+        softphone.\n\nIf using eyebeam version 1.1, need to
+        supply argument value of &quot;1.1&quot;. Default keyword
+        comand is for eyeBeam version 1.5 and X-Lite..</td>
+        <td>${output}</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run Keyword If</td>
+        <td>'${version}'=='1.1'</td>
+        <td>Mouse Click</td>
+        <td>LEFT</td>
+        <td>334</td>
+        <td>236</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run Keyword If</td>
+        <td>'${version}'=='1.5'</td>
+        <td>Mouse Click</td>
+        <td>LEFT</td>
+        <td>336</td>
+        <td>204</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+</table>
+</body>
+</html>

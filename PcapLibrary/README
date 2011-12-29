@@ -1,0 +1,208 @@
+This is the README file for pcapdiff 0.1, written November 2007.
+
+Copyright (C) 2007 Electronic Frontier Foundation
+This document is released under the same license as pcapdiff itself.  Details
+can be found in the COPYING files.
+
+DESCRIPTION
+
+    pcapdiff takes two pcap files (usually produced by running tcpdump,
+    Wireshark, or a similar pcap-compatible packet capture program on two
+    different computers) and compares them to find dropped and forged packets
+    between the two machines.  Required arguments are the filenames of the two
+    pcap files and their associated IP addresses.  Though pcapdiff uses "local"
+    and "remote" to identify the two files, the processing should be symmetric
+    -- that is, it is only required that the "local" pcap file be captured on
+    the local network of the machine with the "local" IP address, and,
+    correspondingly, that the "remote" pcap file be captured on the same
+    network of the machine with the "remote" IP address.
+
+    This comparison can help human beings locate possible evidence that an
+    ISP is altering packets in transit, for example by TCP RST injection
+    or by using a transparent HTTP proxy.  pcapdiff can identify mismatched
+    packets by IP identification field; for example, if a packet with IP
+    ID value 1729 is reported as forged or dropped by pcapdiff, packets with
+    this value can be located quickly in a Wireshark display with the
+    display filter
+
+       ip.id eq 1729
+
+REQUIREMENTS
+
+    This version of pcapdiff requires a modern version of Python and the pcapy
+    library.  While it should be able to run on any platform where these two
+    things are available (Unix-like OSes, Microsoft Windows, and MacOS X), it
+    has only been tested extensively on GNU/Linux with Python 2.4.4 and
+    pcapy 0.10.4.
+
+    If your OS doesn't package the pcapy Python modules, you can get it here:
+    http://oss.coresecurity.com/projects/pcapy.html
+
+USAGE
+
+    ./pcapdiff.py [-v | -h]
+    ./pcapdiff.py [-V[V]] [-c] [-t] [-s]
+                  <local.pcap> <local ip> <remote.pcap> <remote ip>
+
+    Example:
+
+    ./pcapdiff.py -Vt local.pcap 12.13.14.15 remote.pcap 4.8.16.32
+    
+OPTIONS
+
+    -v or --version:        Print out the version number and exit.
+    -h or --help:           Print out help (this message) and exit.
+ 
+    -V or --verbose=n:
+          Increase verbosity level, or set to n.  Valid levels are 0 (default),
+          1, and 2.  Use the short option twice ('-VV') to get level 2.
+
+          At verbosity level 0, pcapdiff will print only a summary table of the
+          packets it processed.  At level 1, it will print out IP ident fields
+          of interesting packets (dropped, forged, etc.).  At level 2, it will
+          print out the actual packets (including payload) and lots of other
+          information.
+ 
+    -c or --use-checksum:
+          Do not ignore the TCP/UDP checksum when comparing packets.  Normally,
+          TCP/UDP checksums are ignored because checksum offloading results in
+          bad checksums on the sending side.  Use this option if you don't have
+          (or have disabled) checksum offloading on both machines used to
+          produce the pcap files, or if the pcap files were captured on another
+          machine on the local network.
+          NOT FULLY IMPLEMENTED
+
+    -t or --use-timestamps: 
+          Trust timestamps in pcap files.  With this option, pcapdiff looks at
+          when each file begins and ends, and only compares the intersection of
+          the two time intervals.
+          SEE NOTES
+
+    -s or --skew-clocks:
+          Use this option if the two host clocks were not synchronized AND the
+          first packet in both dump files is the same packet.  pcapdiff will
+          subtract the difference between the timestamps on these two packets
+          to find the clock skew and apply this difference to all other
+          timestamps.  The purpose of this option is to reduce the amount of
+          memory used by pcapdiff; it will never affect the output (except
+          for printing the clock skew).  To reduce clock skew, use NTP to
+          synchronize the clocks of the computers performing packet captures
+          to reliable time sources before the captures begin.
+
+NOTES
+
+    FRAGMENTATION
+
+    pcapdiff currently does not attempt to reassemble packets that have
+    been fragmented at the IP layer, even though IP-layer fragmentation
+    by IP routers is a legitimate behavior according to Internet standards.
+    Because fragmentation involves substituting several new packets for
+    one originally transmitted packet, pcapdiff would detect a transmitted
+    packet subsequently fragmented by an intermediate router as one
+    "dropped" packet and each fragment as a "forged" packet.  It should be
+    possible to implement fragment reassembly in a future version of
+    pcapdiff.
+
+    Many Internet configurations and operating systems never experience
+    fragmentation in practice.  Any reports of dropped and forged packets
+    should be examined to rule out the possibility of fragmentation;
+    fragmented packets can be identified because they have the IP header
+    flag "More Fragments" (MF) set or have a non-zero value in the
+    fragment offset field.  This version of pcapdiff does not directly
+    process these fields, but they can be displayed in another program
+    such as Wireshark.
+
+
+    SNAPLEN
+
+    It is important that both packet captures are made with an equivalent
+    number of bytes captured ("snaplen"); for instance, Wireshark defaults
+    to capturing entire packets, whereas tcpdump defauls to capturing only
+    the first 68 bytes of each packet.  This option can be changed with
+    the -s option to tcpdump.  We recommend capturing with an unlimited
+    snaplen (that is, capturing each packet in its entirety).
+
+
+    FALSE REPORTS DUE TO TIMING
+
+    Whether using the -t (--use-timestamps) option or not, one has to take
+    extra care to ensure that there are no false "forged" or "dropped"
+    packets towards the beginning or end of the capture.
+    
+    When not using -t, false reports are generated when there is network
+    traffic between the hosts while one host is capturing and the other is
+    not.  For example, imagine the local host starts capturing packets, then
+    pings the remote host and receives a response; then the remote host
+    starts its capture.  The ping and response will show up as an outbound
+    drop and an inbound forge respectively.
+
+    When using -t, false reports can be generated because of unsynchronized
+    clocks or network latency.  For example, imagine the local host sends a
+    packet at time 11, stops its packet capture at time 12, and the packet
+    is received by the remote host at time 13.  Because time 13 is after one
+    of the packet captures stops, this appears as a dropped packet.  Even
+    worse, if the clocks are not synchronized, legitimate packets can appear
+    to be forged.
+
+    We are working on better algorithms for handling these edge cases for
+    future versions of pcapdiff; in the mean time, use caution with
+    whichever method you use.
+
+
+    FALSE REPORTS DUE TO CHECKSUM OFFLOADING
+
+    TCP/UDP checksums are zeroed out before packets are compared unless -c
+    or --use-checksums is specified.  This is because TCP/UDP checksum
+    offloading (to the NIC) can cause faulty checksums on the originating
+    machine.  If you have disabled checksum offloading on both hosts (or are
+    capturing from another machine on the LAN), then you should use -c.
+
+    *** CURRENTLY, -c or --use-checksums IS NOT IMPLEMENTED.  Checksums are
+    never checked.  This will change in a future version. ***
+
+
+    FALSE REPORTS DUE TO LARGE SEGMENT OFFLOADING
+
+    On a similar note, many Network Interface Cards (NICs), especially
+    gigabit Ethernet cards, support Large Segment Offloading.  With LSO,
+    your kernel hands a large chunk of data to the NIC and then the NIC
+    breaks it into smaller-than-MTU chunks, wraps them with IP and TCP
+    headers, and sends them off as packets.  If you are packet capturing
+    on your own machine with the hopes of using pcapdiff, this is bad
+    news, because you'll see only one packet on the local side and many
+    packets on the remote side, which will register as one drop and many
+    forges.  If pcapdiff reports a huge number of dropped and forged
+    packets, this is probably what is happening.
+
+    You have two options:  Option one is to turn LSO off (on GNU/Linux, this
+    can be done with ethtool(1).  Use ethtool -k to see current offload
+    settings and ethtool -K to set them).  Option two is to capture using
+    a different computer on the local (non-switched) network, so you can see
+    the traffic after it leaves the NIC.
+
+
+    MEMORY AND PROCESS TIME ISSUES
+
+    The amount of memory increases with the sum of network latency,
+    clock differential, and number of dropped/forged packets. This means
+    pcapdiff will use less memory if you synchronize your clocks before
+    you do your captures. For reasonable values (~1s), pcapdiff should
+    use about 30 MB of RAM.
+
+    If pcapdiff uses too much RAM and pages start getting swapped out to
+    disk, you will see a huge increase (~10x) in processing speed.
+
+    While memory usage will not increase with larger pcap files (except
+    for the fact that there will likely be more dropped packets),
+    processing time will.
+
+MORE INFORMATION
+
+    pcapdiff was released with a companion article on the EFF website.  While
+    this README covers _how_ to use pcapdiff, the article explains _why_ one
+    would want to in the first place.  The article, updated versions of
+    pcapdiff, and other tools may be found on the EFF website:
+
+    http://www.eff.org/testyourisp/
+
+END

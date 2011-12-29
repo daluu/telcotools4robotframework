@@ -1,0 +1,96 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>RobotFramework SoX Resource (~Library) File</title>
+</head>
+
+<body>
+
+<h1>RobotFramework SoX Resource (~Library) File</h1>
+
+<p><strong>Version:</strong> 1.0<br>
+<strong>Licensed under:</strong> <a
+href="http://creativecommons.org/licenses/by/3.0/"
+target="_blank">Creative Commons CC BY 3.0</a><br>
+<strong>Project website</strong>: <a
+href="http://code.google.com/p/telcotools4robotframework/">http://code.google.com/p/telcotools4robotframework/</a></p>
+
+<p><strong>Dependencies:</strong> SoX application - <a
+href="http://sox.sourceforge.net/" target="_blank">http://sox.sourceforge.net/</a>
+</p>
+
+<table border="1">
+    <tr>
+        <td><strong>Setting</strong></td>
+        <td><strong>Value</strong></td>
+    </tr>
+    <tr>
+        <td>Documentation</td>
+        <td>Resource file of custom user keywords acting as
+        library for common audio conversion routines using SoX
+        application (http://sox.sourceforge.net/ ). Requires SoX
+        application to be installed and use of the Robot
+        Framework standard Operating System library.</td>
+    </tr>
+    <tr>
+        <td>Library</td>
+        <td>OperatingSystem</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<table border="1">
+    <tr>
+        <td><strong>Variable</strong></td>
+        <td><strong>Value</strong></td>
+        <td><strong>Value</strong></td>
+    </tr>
+    <tr>
+        <td>${soxPath}=</td>
+        <td>sox</td>
+        <td>#default of local path, change path to SoX
+        application as needed here. Path may differ between
+        Windows and *nix installations.</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<table border="1">
+    <tr>
+        <td><strong>Keyword</strong></td>
+        <td><strong>Action</strong></td>
+        <td><strong>Argument</strong></td>
+        <td><strong>Argument</strong></td>
+    </tr>
+    <tr>
+        <td>Convert Wave File For Dtmf And Tone Detection</td>
+        <td>[Arguments]</td>
+        <td>${inputFile}</td>
+        <td>${outputFile}</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>[Documentation]</td>
+        <td>Convert given input audio file with SoX to an output
+        audio file in the following format for use in telecom
+        testing (e.g. DTMF or tone frequency detection):\n\n8
+        kHz, 16-bit, mono, (ideally) PCM encoding.</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Run</td>
+        <td>${soxPath} ${inputFile} -c 1 -b 16 -r 8000
+        ${outputFile}</td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+</body>
+</html>
