@@ -2,6 +2,7 @@
 #
 # Modified by David Luu, 2010.
 # Modified pcapdiff source code to make Robot Framework test library version.
+# http://code.google.com/p/telcotools4robotframework/
 
 # Copyright (C) 2007 Electronic Frontier Foundation
 # Written November 2007 by Seth Schoen <schoen@eff.org>
