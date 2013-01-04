@@ -11,7 +11,7 @@ content="text/html; charset=iso-8859-1">
 
 <h1>RobotFramework eyeBeam/X-Lite Resource (~Library) File</h1>
 
-<p><strong>Version:</strong> 1.0<br>
+<p><strong>Version:</strong> 1.1<br>
 <strong>Licensed under:</strong> <a
 href="http://creativecommons.org/licenses/by/3.0/"
 target="_blank">Creative Commons CC BY 3.0</a><br>
@@ -53,9 +53,12 @@ href="http://code.google.com/p/telcotools4robotframework/">http://code.google.co
         against remote machines running the softphone using the
         Remote Library (implemented/imported with AutoIt and
         Operating System libraries). *NOTE:* Not all keywords
-        fully tested but should mostly work in general. This
-        library is a port of a VBScript command line script with
-        same API.</td>
+        fully tested, there might be missed bugs or typos, 
+	but should mostly work in general. Please file any bugs you
+	find. This library is a port of a VBScript command line script with
+        same API. For how to modify/improve the library, or fix bugs,
+	see the Robot Framework user guide documentation on resource
+	files (http://robotframework.googlecode.com/hg/doc/userguide/RobotFrameworkUserGuide.html?r=2.7.5#resource-and-variable-files).</td>
     </tr>
     <tr>
         <td>Library</td>
@@ -648,15 +651,20 @@ href="http://code.google.com/p/telcotools4robotframework/">http://code.google.co
         <td>&nbsp;</td>
         <td>[Documentation]</td>
         <td>Plays specified wave audio file as audio sent out
-        from eyebeam/X-Lite softphone.\n\nThis keyword assumes
+	from eyebeam/X-Lite softphone.\n\nThis keyword assumes
         that on the computer running the softphone, the audio
         output is looped back to audio line input or microphone
         input to be transmitted to the other end of the SIP call,
         or the audio is piped from wave audio player to softphone
-        audio input (via virtual audio drivers, etc.).\n\nThe
+        audio input. The audio output to input can be piped or
+	looped via virtual audio driver software, 3.5mm loopback 
+	audio cable connecting audio out to audio in, or the 
+	sound card driver software's built in audio mixer feature.\n\nThe
         audio playback is done through Windows Media Player,
         version 6.x. Windows Media Player will be launched to
-        play the file and then auto-close on completion.</td>
+        play the file and then auto-close on completion. Alternatively,
+	can be reconfigured to use a different audio playback
+	application like Windows Sound Recorder, etc.</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -669,7 +677,7 @@ href="http://code.google.com/p/telcotools4robotframework/">http://code.google.co
         <td>Run</td>
         <td>&quot;C:\Program Files\Windows Media
         Player\mplayer2.exe&quot; /play /close ${audioFile}</td>
-        <td>#other options include &quot;mplay32 /play /close
+        <td>#other command options include &quot;mplay32 /play /close
         ${audioFile}&quot; and &quot;sndrec32 /play /close
         ${audioFile}&quot;</td>
         <td>&nbsp;</td>
@@ -758,7 +766,7 @@ href="http://code.google.com/p/telcotools4robotframework/">http://code.google.co
     <tr>
         <td>Start Softphone</td>
         <td>[Arguments]</td>
-        <td>${softphoneExecutable}=C:\\Program Files\\X-Lite</td>
+        <td>${softphoneExecutable}=C:\\Program Files\\PutPathToSoftphoneExeHere</td>
         <td>#customize default path to softphone executable</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -773,7 +781,7 @@ href="http://code.google.com/p/telcotools4robotframework/">http://code.google.co
         by supplying the path to the application&#146;s
         executable file.\n\nTechnically, you can also open other
         applications with this keyword. Default application/path
-        is &quot;&quot;, if not supplied.</td>
+        is &quot;EnterYourDefaultValueHere&quot;, if not supplied.</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -863,6 +871,17 @@ href="http://code.google.com/p/telcotools4robotframework/">http://code.google.co
     </tr>
     <tr>
         <td>Toggle Recording</td>
+	<td>[Arguments]</td>
+        <td>${version}=1.5</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
         <td>[Documentation]</td>
         <td>Enable or disable (toggle) the eyeBeam/X-Lite audio
         recording feature.\n\nDefault state is off.\n\nSaves
